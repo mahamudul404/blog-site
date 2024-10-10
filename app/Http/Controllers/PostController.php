@@ -20,7 +20,8 @@ class PostController extends Controller
 
     public function adminDashboard()
     {
-        return view('admin.dashboard');
+        $posts = Post::all();
+        return view('admin.dashboard', compact('posts'));
     }
 
     /**
@@ -42,12 +43,18 @@ class PostController extends Controller
             'slug' => 'required|string|max:255|unique:posts',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+        // handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+        }
 
         Post::create([
             'title' => $request->title,
             'content' => $request->content,
             'slug' => $request->slug,
-            'image' => $request->image,
+            'image' => $imageName,
             'user_id' => Auth::user()->id,
         ]);
 

@@ -13,6 +13,40 @@
   <h1>Admin Dashboard</h1>
   <a href="{{ route('posts.create') }}" class="btn btn-primary">Create Post</a>
   <a href="{{ route('posts.index') }}" class="btn btn-secondary">View Posts</a>
-  
+  {{-- view and manange update and delete post --}}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Manage Posts</h2>
+        <table class="table table-striped table-bordered">
+          <thead class="text-center">
+            <tr>
+              <th>Title</th>
+              <th>Content</th>
+              <th>Image</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($posts as $post)
+              <tr class="text-center">
+                <td>{{ $post->title }}</td>
+                <td>{{ $post->content }}</td>
+                <td><img src="{{ asset('images/' . $post->image) }}" alt="{{ $post->title }}" class="img-fluid" style="width: 100px; height: 100px;"></td>
+                <td>
+                  <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
+                  <a href="{{ route('posts.destroy', $post->id) }}" class="btn btn-danger">Delete</a>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
 </body>
 </html>

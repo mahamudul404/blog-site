@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <h2>{{ $post->title }}</h2>
                     <p>{{ $post->content }}</p>
-                    <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="img-fluid">
+                   <img style="width: 100%; height: 100%;" src="{{ asset('images/' . $post->image) }}" alt="{{ $post->title }}" class="img-fluid">
                     <a href="" class="btn btn-primary">Read More</a>
                 </div>
             @endforeach
