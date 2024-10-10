@@ -21,23 +21,21 @@
 
                             {{-- comment system add post --}}
                             <div class="comment-system">
-                                <form action="{{ route('comments.store', $post->id) }}" method="POST">  
+                                <form action="{{ route('comments.store', $post->id) }}" method="POST">
                                     @csrf
                                     <div class="form-group">
                                         <label for="comment">Comment</label>
-                                    <input type="text" name="content" class="form-control">
-                                </div>
-                                <button type="submit" class="btn btn-success mt-3">Submit</button>
+                                        <input type="text" name="content" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-success mt-3">Submit</button>
                                 </form>
-                                {{-- show comment --}}
-                                <div class="comment-list">
-                                    <h3>Comments</h3>
-                                    <ul>
-                                        @foreach ($post->comments as $comment)
-                                            <li>{{ $comment->comment }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                                {{-- show comment and show user name --}}
+                                @foreach ($contents as $content)
+                                    <div class=" d-flex justify-content-between align-items-center ">
+                                        <p class="mb-0  ">{{ $content->content }}</p>
+                                        <p class="text-muted mb-0 ">{{ $content->user->name }}</p>
+                                    </div>
+                                @endforeach
 
 
                             </div>

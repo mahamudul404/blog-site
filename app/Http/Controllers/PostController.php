@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use view;
 use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +16,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('posts.index', compact('posts'));
+        $contents = Comment::all();
+        return view('posts.index', compact('posts', 'contents'));
     }
 
     public function adminDashboard()
