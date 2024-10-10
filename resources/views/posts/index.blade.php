@@ -6,11 +6,7 @@
     @include('posts.header')
 
     <!-- Content section -->
-    <div class="content">
-        <div class="container mt-4">
-            @yield('content')
-        </div>
-    </div>
+    @include('posts.content')
 
     <!-- Footer section -->
   @include('posts.footer')

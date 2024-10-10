@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use view;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -17,12 +18,17 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
+    public function adminDashboard()
+    {
+        return view('admin.dashboard');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('admin.create');
     }
 
     /**
@@ -30,7 +36,22 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'slug' => 'required|string|max:255|unique:posts',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        Post::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'slug' => $request->slug,
+            'image' => $request->image,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('admin.dashboard');
     }
 
     /**
@@ -64,4 +85,6 @@ class PostController extends Controller
     {
         //
     }
+
+    
 }
