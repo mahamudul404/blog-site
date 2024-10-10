@@ -46,7 +46,7 @@ class PostController extends Controller
         // handle image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('images'), $imageName);
         }
 
@@ -74,7 +74,8 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $post = Post::find($id);
+        return view('admin.edit', compact('post'));
     }
 
     /**
@@ -82,7 +83,27 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $post = Post::find($id);
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        // update image and delete old image
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+            unlink(public_path('images/' . $post->image));
+        }
+        
+        $post->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image' => $imageName,
+        ]);
+
+        return redirect()->route('admin.dashboard');
     }
 
     /**
@@ -90,8 +111,11 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // delete post and delete image from public/images
+        $post = Post::find($id);
+        $post->delete();
+        unlink(public_path('images/' . $post->image));
+        return redirect()->route('admin.dashboard');
     }
 
-    
 }

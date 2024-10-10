@@ -34,9 +34,13 @@
                 <td>{{ $post->title }}</td>
                 <td>{{ $post->content }}</td>
                 <td><img src="{{ asset('images/' . $post->image) }}" alt="{{ $post->title }}" class="img-fluid" style="width: 100px; height: 100px;"></td>
-                <td>
+                <td class="d-flex justify-content-center align-items-center gap-2">
                   <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
-                  <a href="{{ route('posts.destroy', $post->id) }}" class="btn btn-danger">Delete</a>
+                  <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
                 </td>
               </tr>
             @endforeach

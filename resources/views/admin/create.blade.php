@@ -5,6 +5,18 @@
         <div class="col-md-12">
             <h1>Create Post</h1>
         </div>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+
         <div class="col-md-12">
             <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                 @csrf
@@ -31,5 +43,5 @@
         </div>
     </div>
 
-    </div>
+</div>
 </div>
