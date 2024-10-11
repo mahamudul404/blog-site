@@ -21,4 +21,15 @@ class CommentController extends Controller
         $comment->save();
         return redirect()->back();
     }
+
+    //user can delete comment
+    public function delete($id)
+    {
+        //user can delete only his comment
+        $comment = Comment::find($id);
+        if ($comment->user_id == Auth::user()->id) {
+            $comment->delete();
+        }
+        return redirect()->back();
+    }
 }
